@@ -4,3 +4,11 @@ Test2
     Ratio: 60213, difference: 61545
 Test3
     Ratio: 674634, difference: 688647
+TestPrim1
+    -236
+TestPrim2
+    4
+TestPrim3
+    16
+TestPrim4
+    -3
