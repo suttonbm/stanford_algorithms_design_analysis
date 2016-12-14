@@ -31,9 +31,9 @@ def main():
     # END for
 
     print "Part A:"
-    testKnapsack('knapsack1.txt', run_A)
+    testKnapsack('knapsack1.txt', run_A, ans=2493893)
     print "Part B:"
-    testKnapsack('knapsack_big.txt', run_B)
+    testKnapsack('knapsack_big.txt', run_B, ans=4243395)
 # END main
 
 if __name__=='__main__':

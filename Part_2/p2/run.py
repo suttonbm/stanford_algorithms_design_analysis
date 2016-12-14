@@ -35,11 +35,11 @@ def main():
 
     print "Running Quiz for Part A"
     with open(p1_datafile, 'r') as datafile:
-        run_A(datafile.readlines(), 4)
+        run_A(datafile.readlines(), 4, ans=106)
 
     print "Running Quiz for Part B"
     with open(p2_datafile, 'r') as datafile:
-        run_B(datafile.readlines(), 3)
+        run_B(datafile.readlines(), 3, ans=6118)
 
 if __name__ == '__main__':
     main()
