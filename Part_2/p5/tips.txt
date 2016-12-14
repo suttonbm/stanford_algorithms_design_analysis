@@ -1,0 +1,35 @@
+Teaching assistant Douglas Gregory contributed this advice on PA#5:
+
+I like to think of Programming Assignment #5 as the "boss battle" of the course. You may find it's substantially more difficult than it looks, but don't worry, you can beat it! Just don't leave this one until the day before the deadline.
+
+The dynamic programming algorithm taught in the lectures is extremely memory-hungry, even when using the standard tricks that have helped us in the past (like keeping only the last row/column of subproblems, etc.) It may surprise you, after we've breezed through data sets with hundreds of thousands of items; but if we proceed incautiously, those mere 25 cities can sprawl into as much as 10GB of subproblem storage.
+
+So each time I've been through this course, some students have reported out of memory errors or extremely sluggish performance as their program starts paging virtual memory to & from disc. This tends to impact students using managed languages in particular.
+
+But there's no need to despair - I've gotten a version of the lecture algorithm working in 14s with a garbage collected language (C#) on a 7-year-old Core 2 in around 240 MB - so it's not beyond your reach, even if you're not coding straight to the metal on a high-end machine with gobs of RAM.
+
+Some strategies you can try if you run into trouble:
+
+Don't get too fancy for starters. Aim to get an answer using methods that make sense to you, and don't worry if your first solution time is in minutes. There's rich literature available on metric/Euclidean TSP, and it will be tempting to try to implement some cutting-edge algorithm. Exploring sophisticated optimization can be rewarding, but only once you have the correct answer already.
+
+You don't want to be trying to debug arcane whitepaper-inspired code three hours from the deadline. ;)
+
+Look for structure you can exploit. Both the problem data sets and the algorithms presented in the lectures often admit shortcuts if you look carefully. (Remember the GCD in PA3, or getting away with just one BF invocation in PA4) This can cut down the work your program needs to do quite dramatically.
+
+Last session, a Python solution beat the fastest C++ DP implementation by taking advantage of a useful pattern in the data.
+
+Don't feel limited to the dynamic programming paradigm. The algorithm taught in lectures will work, but it is by no means the only version worth trying. At this stage in the course, you can do more than just implement lecture pseudocode - you have the skills now to design your own algorithm.
+
+In my first TA run, a student discovered a very effective greedy approximation, and I found I could half my dynamic programming implementation's time with a branch & bound version that used only kilobytes of memory. Already in this session there's been some talk about simulated annealing. If you feel blocked in one direction, try another angle for a while.
+
+That said, if you want to implement the DP algorithm, and need to conquer its memory demands...
+
+Simplify your data structures and keep only what you need. Are all 25 cities really in play? How concisely can you store the subset+last city key? Can you get away with single-precision? Can you avoid unnecessary hashmaps/storing keys? (Each of these last two can roughly half your memory requirements)
+
+Consider what's happening to your data "under the hood." C/C++ programmers will be used to this, but it may be a new way of thinking if you're used to managed languages. For instance, if you don't tell your program how large a collection to allocate, how much capacity does it prepare by default? What happens when you add items beyond that capacity? Is there redundant space the garbage collector can't recycle for you? Are you repeatedly creating & destroying data structures that could be recycled instead?
+
+One student in the first run of this course found they got a substantial speedup just by packing subproblem results densely in an array, which improved CPU cache performance compared to using a hash table. On memory-bound algorithms, just reducing churn and keeping related data close together helps more than you may expect.
+
+I hope that helps! Don't be discouraged - NP-Hard problems are named that way for a reason, but you have the tools you need to conquer this one.
+
+Happy coding!
