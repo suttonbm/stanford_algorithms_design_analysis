@@ -1,6 +1,16 @@
 from copy import copy
 from itertools import combinations
 from math import sqrt, floor
+import numpy as np
+
+import operator as op
+def nCr(n, r):
+    r = min(r, n-r)
+    if r == 0: return 1
+    numer = reduce(op.mul, xrange(n, n-r, -1))
+    denom = reduce(op.mul, xrange(1, r+1))
+    return numer//denom
+# END nCr
 
 class AdjList:
     def __init__(self, points):
@@ -22,33 +32,41 @@ class AdjList:
         # END if
     # END getDist
 
+    def __bitmap2Index(self, bitmap):
+        pass
+
     def __heldKarp(self):
         vertices = copy(self.vertices)
         # Get Starting Vertex
-        v = vertices.pop()
-        #print "Starting from Vertex {0}".format(v)
+        v = max(vertices)
+        vertices.remove(v)
 
-        # Initialize dictionary of sub-problems
-        subP = {}
-        # Initialize solutions
+        # Initialize array to store subproblem solutions
+        nSubproblems = 2**len(vertices)
+        subP = np.zeros((nSubproblems, len(vertices)), dtype=np.dtype('f4'))
+
+        # Initialize baseline solutions
         for w in vertices:
-            subP[(frozenset([w]), w)] = self.getDist(v, w)
+            bitmask = 1 << w
+            subP[bitmask, w] = self.getDist(v, w)
         # END for
 
         for n in range(2, len(vertices)+1):
             print "Paths Of {0} Vertices...".format(n)
-            newSubP = {}
+            newSubP = np.zeros((nSubproblems+1, len(vertices)), dtype=np.dtype('f4'))
             for subset in combinations(vertices, n):
-                S = frozenset(subset)
+                S = sum([1 << x for x in subset])
                 #print "Path Including {0}".format(S)
                 for w in subset:
-                    l = frozenset([w])
-                    candidates = []
-                    for x in S-l:
-                        candidates.append(subP[(S-l, x)] + self.getDist(x, w))
-                    # END for
-                    #print "{0} Candidate Paths".format(len(candidates))
-                    newSubP[(S, w)] = min(candidates)
+                    P = S - (1 << w)
+                    minPath = float("inf")
+                    for x in subset:
+                        if x == w:
+                            continue
+                        candidate = subP[P, x] + self.getDist(x, w)
+                        if candidate < minPath:
+                            minPath = candidate
+                    newSubP[S, w] = minPath
                     #print "Min Path has Length {0}".format(min(candidates))
                 # END for
             # END for
@@ -56,13 +74,13 @@ class AdjList:
         # END for
 
         print "Final Iteration..."
-        S = frozenset(vertices)
+        S = 2**len(vertices)-1
         candidates = []
         for w in vertices:
-            candidates.append(subP[(S, w)] + self.getDist(w, v))
+            candidates.append(subP[S, w] + self.getDist(w, v))
         # END for
         #print "There are {0} candidate paths.".format(len(candidates))
-        print "The shortest path has length {0}".format(min(candidates))
+        #print "The shortest path has length {0}".format(min(candidates))
 
         return min(candidates)
     # END heldKarp

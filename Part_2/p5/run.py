@@ -1,5 +1,6 @@
 from tests import tests
 from p5 import tsp
+import time
 
 def runTest(lines=-1, ans=None):
     fname = 'tsp.txt'
@@ -18,7 +19,9 @@ def runTest(lines=-1, ans=None):
         points.append((x,y))
     # END for
 
+    start = time.clock()
     result = tsp(points)
+    print "Time Elapsed: {0}".format(time.clock() - start)
 
     if ans is not None:
         assert result == ans, "Got {0}, Expected {1}".format(result, ans)
@@ -29,7 +32,7 @@ def runTest(lines=-1, ans=None):
 
 def main():
     failTest = False
-    for test in tests[:4]:
+    for test in tests:
         try:
             runTest(test['npts'], test['ans'])
             print "Test OK"
@@ -44,6 +47,7 @@ def main():
     # END if
 
     runTest()
+    # ANSWER: 26442
 # END main
 
 if __name__ == '__main__':
