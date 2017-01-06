@@ -1,6 +1,8 @@
 from collections import defaultdict
 import numpy as np
 
+# TODO: Implement the other methods of APSP problem and compare speed.
+
 class AdjList:
     def __init__(self, f):
         with open(f, 'r') as ifile:

@@ -1,6 +1,8 @@
 from collections import defaultdict
 from DictBinHeap import DictBinHeap
 
+# TODO: Implement heap-based version of this algorithm
+
 class AdjList:
     def __init__(self, filename):
         self.vertices = set()

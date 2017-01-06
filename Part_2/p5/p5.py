@@ -3,6 +3,8 @@ from itertools import combinations
 from math import sqrt, floor
 import numpy as np
 
+# TODO: Can I make this faster using simulated annealing or another approximation algorithm?
+
 import operator as op
 def nCr(n, r):
     r = min(r, n-r)

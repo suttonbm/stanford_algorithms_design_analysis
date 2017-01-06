@@ -108,6 +108,7 @@ class AdjList:
     # END kosarajuSCC
 
     def tarjanSCC(self):
+        # TODO: Implement Tarjan's SCC algorithm.
         pass
     # END tarjanSCC
 # END AdjList

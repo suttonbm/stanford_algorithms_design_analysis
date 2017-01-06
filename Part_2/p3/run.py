@@ -1,6 +1,8 @@
 from tests import tests
 from p3_answer import run_A, run_B
 
+# TODO: Try implementing heuristic method for the knapsack problem
+
 def testKnapsack(filename, fn, ans=None):
     print "Testing {0}".format(filename)
     result = fn(filename)
